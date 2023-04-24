@@ -1,6 +1,7 @@
 create database library_management_system;
 use library_management_system;
 
+
 create table Items(
 	itemID  CHAR(50) primary key,
     title CHAR(50),
@@ -123,9 +124,9 @@ create table Publish (
 
 
 create table Transactions(
+	transactionID CHAR(50),
 	userID CHAR(50),
     copyID CHAR(50),
-	transactionID CHAR(50),
     itemID CHAR(50),
     PRIMARY KEY (transactionID,copyID ,userID,itemID),
 	FOREIGN KEY (copyID) REFERENCES Copies(copyID),
@@ -138,6 +139,7 @@ create table Fines (
     payment_status  CHAR(50),
 	userID   CHAR(50),
 	transactionID CHAR(50),
+    type_of_payment CHAR(50),
 	PRIMARY KEY (transactionID,userID),
 	FOREIGN KEY (userID) REFERENCES Library_users(userID),
 	FOREIGN KEY (transactionID ) REFERENCES Transactions(transactionID )
@@ -145,15 +147,15 @@ create table Fines (
 
 create table Returnning_transactions(
 	transactionID CHAR(50),
-	returnDate DATETIME NOT NULL,
+	return_date DATETIME NOT NULL,
 	PRIMARY KEY (transactionID),
 	FOREIGN KEY (transactionID ) REFERENCES Transactions(transactionID )
 );
 
 create table Borrowing_transactions(
 	transactionID CHAR(50),
+    borrow_date DATETIME NOT NULL,
 	due_date DATETIME NOT NULL,
-	borrow_date DATETIME NOT NULL,
 	PRIMARY KEY (transactionID),
 	FOREIGN KEY (transactionID ) REFERENCES Transactions(transactionID )
 );
@@ -187,8 +189,7 @@ insert into Items values
 	('i26',	'The Bluest Eye',	'Literary Fiction',	'Book'),
 	('i27',	'Song of Solomon',	'Literary Fiction',	'Book'),
 	('i28',	'The Lord of the Rings trilogy',	'High Fantasy',	'Book'),
-	('i29',	'The Hobbit',	'High Fantasy',	'Book')
-;
+	('i29',	'The Hobbit',	'High Fantasy',	'Book');
 
 insert into Copies values
 ('i1', 'c1'),
@@ -380,7 +381,7 @@ VALUES
     ('i28', 'au10', 'Tre Publishing House', '1979-03-07'),
     ('i29', 'au10', 'Ha Noi Publishing House', '1982-06-11');
     
-    INSERT INTO transactions (transactionID, userID, itemID, copyID)
+INSERT INTO Transactions (transactionID, userID, itemID, copyID) 
 VALUES 
 ('t01', 'u1', 'i3', 'c6'),
 ('t02', 'u3', 'i5', 'c9'),
@@ -392,53 +393,171 @@ VALUES
 ('t08', 'u8', 'i14', 'c27'),
 ('t09', 'u7', 'i16', 'c32'),
 ('t10', 'u3', 'i11', 'c21'),
-('t11', 'u1', 'i3', 'c6'),
-('t12', 'u3', 'i5', 'c9'),
-('t13', 'u2', 'i12', 'c23'),
-('t14', 'u4', 'i8', 'c16'),
-('t15', 'u8', 'i9', 'c18'),
-('t16', 'u9', 'i10', 'c20'),
-('t17', 'u1', 'i2', 'c3'),
-('t18', 'u8', 'i14', 'c27'),
-('t19', 'u7', 'i16', 'c32'),
-('t20', 'u3', 'i11', 'c21');
+('t11', 'u3', 'i22', 'c44'),
+('t12', 'u4', 'i28', 'c56'),
+('t13', 'u2', 'i10', 'c19'),
+('t14', 'u9', 'i19', 'c38'),
+('t15', 'u1', 'i3', 'c6'),
+('t16', 'u3', 'i5', 'c9'),
+('t17', 'u2', 'i12', 'c23'),
+('t18', 'u4', 'i8', 'c16'),
+('t19', 'u8', 'i9', 'c18'),
+('t20', 'u9', 'i10', 'c20'),
+('t21', 'u1', 'i2', 'c3'),
+('t22', 'u8', 'i14', 'c27'),
+('t23', 'u7', 'i16', 'c32'),
+('t24', 'u3', 'i11', 'c21');
 
-INSERT INTO Fines (transactionID, userID, fine_amount, payment_status)
+INSERT INTO Fines (transactionID, userID, fine_amount, payment_status, type_of_payment) 
 VALUES 
-    ('t01', 'u1', 100, 'paid'),
-    ('t02', 'u3', 100, 'not paid'),
-    ('t03', 'u2', 100, 'paid'),
-    ('t04', 'u4', 100, 'paid'),
-    ('t05', 'u8', 100, 'not paid');
+('t15', 'u1', 100, 'paid', 'visa'),
+('t16', 'u3', 100, 'paid', 'visa'),
+('t17', 'u2', 100, 'paid', 'visa'),
+('t18', 'u4', 100, 'paid', 'cash'),
+('t19', 'u8', 100, 'paid', 'visa'),
+('t11', 'u3', 100, 'not paid', null),
+('t12', 'u4', 100, 'not paid', null),
+('t13', 'u2', 100, 'not paid', null),
+('t14', 'u9', 100, 'not paid', null);
     
-INSERT INTO Returnning_transactions (transactionID, returnDate)
+INSERT INTO returnning_transactions (transactionID, return_date)
 VALUES
-('t11', '2021-05-16 20:14:00'),
-('t12', '2022-11-01 04:29:00'),
-('t13', '2022-10-16 13:48:00'),
-('t14', '2023-07-05 02:28:00'),
-('t15', '2022-09-01 00:58:00'),
-('t16', '2022-01-03 08:53:00'),
-('t17', '2021-03-11 04:58:00'),
-('t18', '2023-05-27 06:46:00'),
-('t19', '2022-10-08 21:50:00'),
-('t20', '2021-02-22 21:48:00');
+('t15', '2022-02-03 14:23:00'),
+('t16', '2022-02-05 22:10:00'),
+('t17', '2022-03-10 08:15:00'),
+('t18', '2022-03-12 12:45:00'),
+('t19', '2022-04-20 20:45:00'),
+('t20', '2022-04-30 01:05:00'),
+('t21', '2022-05-19 12:35:00'),
+('t22', '2022-05-20 16:30:00'),
+('t23', '2022-06-25 06:47:00'),
+('t24', '2022-08-01 18:12:00');
 
-INSERT INTO Borrowing_transactions (transactionID, borrow_date, due_date)
-VALUES 
-('t01', '2022-12-02 18:16:00', '2022-11-02 18:16:00'),
-('t02', '2023-01-02 08:08:00', '2022-12-02 08:08:00'),
-('t03', '2023-05-26 06:44:00', '2023-04-26 06:44:00'),
-('t04', '2022-04-05 08:22:00', '2022-03-05 08:22:00'),
-('t05', '2022-08-26 00:17:00', '2022-07-26 00:17:00'),
-('t06', '2023-03-17 05:22:00', '2023-02-17 05:22:00'),
-('t07', '2022-05-09 01:38:00', '2022-04-09 01:38:00'),
-('t08', '2023-10-10 09:39:00', '2023-09-10 09:39:00'),
-('t09', '2022-09-19 20:48:00', '2022-08-19 20:48:00'),
-('t10', '2022-02-28 02:56:00', '2022-01-31 02:56:00');
+INSERT INTO borrowing_transactions (transactionID, borrow_date, due_date)
+VALUES
+('t01', '2022-01-02 14:23:00', '2022-02-02 14:23:00'),
+('t02', '2022-01-04 22:10:00', '2022-02-04 22:10:00'),
+('t03', '2022-02-08 22:10:00', '2022-03-08 08:15:00'),
+('t04', '2022-02-12 12:45:00', '2022-03-12 12:45:00'),
+('t05', '2022-03-17 20:45:00', '2022-04-17 20:45:00'),
+('t06', '2022-04-17 20:45:00', '2022-04-22 01:05:00'),
+('t07', '2022-04-25 12:35:00', '2022-05-25 12:35:00'),
+('t08', '2022-04-29 16:30:00', '2022-05-29 16:30:00'),
+('t09', '2022-05-31 06:47:00', '2022-06-30 06:47:00'),
+('t10', '2022-07-04 18:12:00', '2022-08-04 18:12:00'),
+('t11', '2022-08-04 18:12:00', '2022-10-20 21:25:00'),
+('t12', '2022-08-11 18:12:00', '2022-09-11 09:20:00'),
+('t13', '2022-10-20 21:15:00', '2022-11-27 15:22:00'),
+('t14', '2022-12-01 03:55:00', '2022-12-31 03:55:00');
+
+-- ------------------------------------------------------
+-- Percentage of gender
+SELECT COUNT(userID) as number_of_gender, gender
+FROM Library_users
+GROUP BY gender;
+-- ------------------------------------------------------
 
 
 
+-- ------------------------------------------------------
+-- Percentage of favorite kinds of books
+SELECT count(tran.itemID) * 100.0 / (sum(count(*)) over()) as percentage_of_genre, item.genre
+FROM Items AS item RIGHT JOIN transactions AS tran
+ON tran.itemID = item.itemID
+GROUP BY item.genre;
 
+SELECT count(tran.itemID) as number_of_genre, item.genre
+FROM Items AS item RIGHT JOIN transactions AS tran
+ON tran.itemID = item.itemID
+GROUP BY item.genre;
+-- ------------------------------------------------------
+
+
+
+-- ------------------------------------------------------
+-- Amount of copies based on genre
+select count(copy.copyID) as amount_of_copy, item.genre
+from Copies as copy cross join items as item
+on item.itemID = copy.itemID
+group by item.itemID;
+-- ------------------------------------------------------
+
+
+
+-- ------------------------------------------------------
+-- Amount of authors
+select * from Authors order by authorID DESC;
+-- ------------------------------------------------------
+
+
+
+-- ------------------------------------------------------
+-- Report of  assistant works. 
+select assist.time as assist_time, library_users.name as user_name, Library_staff.name as tutor_name 
+from assist cross join library_users cross join Library_staff
+on library_users.userID = assist.userID and assist.staffID = Library_staff.staffID;
+-- ------------------------------------------------------
+
+
+
+-- ------------------------------------------------------
+-- Percentage of Fine-payment status.
+select count(distinct paid.transactionID) as number_paid, count(distinct not_paid.transactionID) as number_not_paid
+from fines paid, fines not_paid
+where paid.payment_status = "paid" and  not_paid.payment_status = "not paid"
+and paid.transactionID <> not_paid.transactionID;
+-- ------------------------------------------------------
+
+
+-- ------------------------------------------------------
+-- Percentage of favorite kinds of books based on gender. 
+SELECT distinct transactions.transactionID, Items.genre, library_users.gender
+FROM Items cross JOIN transactions right join library_users
+ON transactions.itemID = Items.itemID and library_users.userID is not null and library_users.gender = "male"; -- for male
+
+SELECT distinct transactions.transactionID, Items.genre, library_users.gender
+FROM Items cross JOIN transactions right join library_users
+ON transactions.itemID = Items.itemID and library_users.userID is not null and library_users.gender = "female"; -- for female
+-- ------------------------------------------------------
+
+
+
+-- ------------------------------------------------------
+-- Blacklist 
+select fines.fine_amount as amount, library_users.userID as userID, library_users.name as user_name, library_users.phone_number as phone_number, library_users.gender as gender,library_users.adress as adress 
+from fines cross join library_users
+on fines.userID = library_users.userID
+where fines.payment_status = "not paid";
+-- ------------------------------------------------------
+
+
+
+-- ------------------------------------------------------
+-- Report types of payment( cash, banking, card,...) -> Add 1 more attribute on Fines entity and 1 data column on Fines Table. 
+select count(type_of_payment) as number, type_of_payment
+from fines 
+group by type_of_payment;
+-- ------------------------------------------------------
+
+
+-- ------------------------------------------------------
+-- Amount of transaction.
+SELECT 
+    DATE_FORMAT(b.borrow_date, '%m') AS month, 
+    COUNT(DISTINCT b.transactionID) AS total_transactions
+FROM borrowing_transactions b
+GROUP BY month
+HAVING total_transactions > 0
+ORDER BY month;
+
+
+SELECT 
+    DATE_FORMAT(rt.return_date, '%m') AS month, 
+    COUNT(DISTINCT rt.transactionID) AS total_transactions
+FROM returnning_transactions rt
+GROUP BY month
+HAVING total_transactions > 0
+ORDER BY month;
+-- ------------------------------------------------------
 
 
