@@ -513,11 +513,13 @@ and paid.transactionID <> not_paid.transactionID;
 -- Percentage of favorite kinds of books based on gender. 
 SELECT distinct transactions.transactionID, Items.genre, library_users.gender
 FROM Items cross JOIN transactions right join library_users
-ON transactions.itemID = Items.itemID and library_users.userID is not null and library_users.gender = "male"; -- for male
+ON transactions.itemID = Items.itemID and library_users.userID is not null and library_users.gender = "male"
+order by transactions.transactionID; -- for male
 
 SELECT distinct transactions.transactionID, Items.genre, library_users.gender
 FROM Items cross JOIN transactions right join library_users
-ON transactions.itemID = Items.itemID and library_users.userID is not null and library_users.gender = "female"; -- for female
+ON transactions.itemID = Items.itemID and library_users.userID is not null and library_users.gender = "female"
+order by transactions.transactionID; -- for female
 -- ------------------------------------------------------
 
 
