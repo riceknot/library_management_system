@@ -510,14 +510,14 @@ and paid.transactionID <> not_paid.transactionID;
 
 -- ------------------------------------------------------
 -- Percentage of favorite kinds of books based on gender. 
-SELECT distinct Items.genre, count(items.genre) as number_of_genre
+SELECT Items.genre, count(items.genre) * 100.0 / (sum(count(*)) over()) as number_of_genre
 FROM transactions
-JOIN library_users on library_users.userID = transactions.userID and library_users.gender = "female"
+JOIN library_users on library_users.userID = transactions.userID and library_users.gender = "male"
 join items
 ON transactions.itemID = items.itemID
-group by items.genre; -- for male
+group by items.genre; -- for female
 
-SELECT distinct Items.genre, count(items.genre) as number_of_genre
+SELECT Items.genre, count(items.genre) * 100.0 / (sum(count(*)) over()) as number_of_genre
 FROM transactions
 JOIN library_users on library_users.userID = transactions.userID and library_users.gender = "female"
 join items
