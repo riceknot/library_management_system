@@ -494,10 +494,9 @@ select * from Authors order by authorID DESC;
 -- ------------------------------------------------------
 -- Report of  assistant works. 
 select assist.time as assist_time, library_users.name as user_name, Library_staff.name as tutor_name 
-from assist join library_users join Library_staff
+from assist join library_users join Library_staff 
 on library_users.userID = assist.userID and assist.staffID = Library_staff.staffID and library_users.userID <> library_staff.userID;
 -- ------------------------------------------------------
-
 
 
 -- ------------------------------------------------------
@@ -511,15 +510,20 @@ and paid.transactionID <> not_paid.transactionID;
 
 -- ------------------------------------------------------
 -- Percentage of favorite kinds of books based on gender. 
-SELECT distinct transactions.transactionID, Items.genre, library_users.gender
-FROM Items cross JOIN transactions right join library_users
-ON transactions.itemID = Items.itemID and library_users.userID is not null and library_users.gender = "male"
-order by transactions.transactionID; -- for male
+SELECT distinct Items.genre, count(items.genre) as number_of_genre
+FROM transactions
+JOIN library_users on library_users.userID = transactions.userID and library_users.gender = "female"
+join items
+ON transactions.itemID = items.itemID
+group by items.genre; -- for male
 
-SELECT distinct transactions.transactionID, Items.genre, library_users.gender
-FROM Items cross JOIN transactions right join library_users
-ON transactions.itemID = Items.itemID and library_users.userID is not null and library_users.gender = "female"
-order by transactions.transactionID; -- for female
+SELECT distinct Items.genre, count(items.genre) as number_of_genre
+FROM transactions
+JOIN library_users on library_users.userID = transactions.userID and library_users.gender = "female"
+join items
+ON transactions.itemID = items.itemID
+group by items.genre; -- for female
+
 -- ------------------------------------------------------
 
 
