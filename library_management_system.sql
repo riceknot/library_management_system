@@ -524,7 +524,14 @@ join items
 ON transactions.itemID = items.itemID
 group by items.genre; -- for female
 
+
 -- ------------------------------------------------------
+select items.title, count(transactions.transactionID) as borrowing_number
+from borrowing_transactions
+join transactions on borrowing_transactions.transactionID = transactions.transactionID
+join items on  transactions.itemID = items.itemID
+group by items.title;
+
 
 
 
