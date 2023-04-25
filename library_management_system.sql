@@ -477,9 +477,9 @@ GROUP BY item.genre;
 -- ------------------------------------------------------
 -- Amount of copies based on genre
 select count(copy.copyID) as amount_of_copy, item.genre
-from Copies as copy cross join items as item
+from Copies as copy join items as item
 on item.itemID = copy.itemID
-group by item.itemID;
+group by item.genre;
 -- ------------------------------------------------------
 
 
@@ -494,8 +494,8 @@ select * from Authors order by authorID DESC;
 -- ------------------------------------------------------
 -- Report of  assistant works. 
 select assist.time as assist_time, library_users.name as user_name, Library_staff.name as tutor_name 
-from assist cross join library_users cross join Library_staff
-on library_users.userID = assist.userID and assist.staffID = Library_staff.staffID;
+from assist join library_users join Library_staff
+on library_users.userID = assist.userID and assist.staffID = Library_staff.staffID and library_users.userID <> assist.staffID;
 -- ------------------------------------------------------
 
 
@@ -536,6 +536,7 @@ where fines.payment_status = "not paid";
 -- Report types of payment( cash, banking, card,...) -> Add 1 more attribute on Fines entity and 1 data column on Fines Table. 
 select count(type_of_payment) as number, type_of_payment
 from fines 
+where type_of_payment is not null
 group by type_of_payment;
 -- ------------------------------------------------------
 
