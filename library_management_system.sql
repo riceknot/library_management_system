@@ -495,7 +495,7 @@ select * from Authors order by authorID DESC;
 -- Report of  assistant works. 
 select assist.time as assist_time, library_users.name as user_name, Library_staff.name as tutor_name 
 from assist join library_users join Library_staff
-on library_users.userID = assist.userID and assist.staffID = Library_staff.staffID and library_users.userID <> assist.staffID;
+on library_users.userID = assist.userID and assist.staffID = Library_staff.staffID and library_users.userID <> library_staff.userID;
 -- ------------------------------------------------------
 
 
