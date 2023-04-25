@@ -145,7 +145,7 @@ create table Fines (
 	FOREIGN KEY (transactionID ) REFERENCES Transactions(transactionID )
 );
 
-create table Returnning_transactions(
+create table Returning_transactions(
 	transactionID CHAR(50),
 	return_date DATETIME NOT NULL,
 	PRIMARY KEY (transactionID),
@@ -420,7 +420,7 @@ VALUES
 ('t13', 'u2', 100, 'not paid', null),
 ('t14', 'u9', 100, 'not paid', null);
     
-INSERT INTO returnning_transactions (transactionID, return_date)
+INSERT INTO returning_transactions (transactionID, return_date)
 VALUES
 ('t15', '2022-02-03 14:23:00'),
 ('t16', '2022-02-05 22:10:00'),
@@ -554,10 +554,9 @@ ORDER BY month;
 SELECT 
     DATE_FORMAT(rt.return_date, '%m') AS month, 
     COUNT(DISTINCT rt.transactionID) AS total_transactions
-FROM returnning_transactions rt
+FROM returning_transactions rt
 GROUP BY month
 HAVING total_transactions > 0
 ORDER BY month;
 -- ------------------------------------------------------
-
 
