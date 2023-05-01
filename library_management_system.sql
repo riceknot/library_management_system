@@ -548,17 +548,20 @@ group by type_of_payment;
 -- Amount of transaction.
 SELECT 
     TO_CHAR(br.borrow_date, 'Month') AS "month", 
-    COUNT(DISTINCT br.transactionID) AS total_transactions
+    COUNT(DISTINCT br.transactionID) AS total_transactions,
+    TO_NUMBER(TO_CHAR(br.borrow_date, 'MM')) AS month_number
 FROM borrowing_transactions br
-GROUP BY TO_CHAR(br.borrow_date, 'Month');
+GROUP BY TO_CHAR(br.borrow_date, 'Month'), TO_NUMBER(TO_CHAR(br.borrow_date, 'MM'))
+ORDER BY month_number;
 
 
 SELECT 
     TO_CHAR(rt.return_date, 'Month') AS "month", 
-    COUNT(DISTINCT rt.transactionID) AS total_transactions
+    COUNT(DISTINCT rt.transactionID) AS total_transactions,
+    TO_NUMBER(TO_CHAR(rt.return_date, 'MM')) AS month_number
 FROM returning_transactions rt
-GROUP BY TO_CHAR(rt.return_date, 'Month')
-ORDER BY TO_CHAR(rt.return_date, 'Month');
+GROUP BY TO_CHAR(rt.return_date, 'Month'), TO_NUMBER(TO_CHAR(rt.return_date, 'MM'))
+ORDER BY month_number;
 -- ------------------------------------------------------
 
 
