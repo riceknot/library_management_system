@@ -561,7 +561,6 @@ SELECT
     COUNT(DISTINCT b.transactionID) AS total_transactions
 FROM borrowing_transactions b
 GROUP BY month
-HAVING total_transactions > 0
 ORDER BY month;
 
 
@@ -570,7 +569,15 @@ SELECT
     COUNT(DISTINCT rt.transactionID) AS total_transactions
 FROM returning_transactions rt
 GROUP BY month
-HAVING total_transactions > 0
 ORDER BY month;
 -- ------------------------------------------------------
+
+
+SELECT 
+FROM transactions tr
+join borrowing_transactions br
+join returning_transactions rt;
+
+
+
 
