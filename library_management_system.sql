@@ -495,6 +495,7 @@ on library_users.userID = assist.userID and assist.staffID = Library_staff.staff
 -- ------------------------------------------------------
 
 
+
 -- ------------------------------------------------------
 -- Percentage of Fine-payment status.
 select count(distinct paid.transactionID) as number_paid, count(distinct not_paid.transactionID) as number_not_paid
@@ -502,6 +503,7 @@ from fines paid, fines not_paid
 where paid.payment_status = "paid" and  not_paid.payment_status = "not paid"
 and paid.transactionID <> not_paid.transactionID;
 -- ------------------------------------------------------
+
 
 
 -- ------------------------------------------------------
@@ -519,15 +521,6 @@ JOIN library_users on library_users.userID = transactions.userID and library_use
 join items
 ON transactions.itemID = items.itemID
 group by items.genre; -- for female
-
-
--- ------------------------------------------------------
-select items.title, count(transactions.transactionID) as borrowing_number
-from borrowing_transactions
-join transactions on borrowing_transactions.transactionID = transactions.transactionID
-join items on  transactions.itemID = items.itemID
-group by items.title;
-
 
 
 
@@ -548,6 +541,7 @@ from fines
 where type_of_payment is not null
 group by type_of_payment;
 -- ------------------------------------------------------
+
 
 
 -- ------------------------------------------------------
