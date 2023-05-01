@@ -1,7 +1,6 @@
 create database library_management_system;
 use library_management_system;
 
-
 create table Items(
 	itemID  CHAR(50) primary key,
     title CHAR(50),
@@ -452,9 +451,11 @@ VALUES
 
 -- ------------------------------------------------------
 -- Percentage of gender
-SELECT COUNT(userID) as number_of_gender, gender
-FROM Library_users
-GROUP BY gender;
+SELECT GENDER, COUNT(GENDER) * 100.0 / (SUM(COUNT(*)) OVER()) AS PERCENTAGE_OF_GENDER
+FROM LIBRARY_USERS
+WHERE GENDER IS NOT NULL
+GROUP BY GENDER
+ORDER BY 2 DESC;
 -- ------------------------------------------------------
 
 
@@ -462,11 +463,6 @@ GROUP BY gender;
 -- ------------------------------------------------------
 -- Percentage of favorite kinds of books
 SELECT count(tran.itemID) * 100.0 / (sum(count(*)) over()) as percentage_of_genre, item.genre
-FROM Items AS item RIGHT JOIN transactions AS tran
-ON tran.itemID = item.itemID
-GROUP BY item.genre;
-
-SELECT count(tran.itemID) as number_of_genre, item.genre
 FROM Items AS item RIGHT JOIN transactions AS tran
 ON tran.itemID = item.itemID
 GROUP BY item.genre;
@@ -512,14 +508,14 @@ and paid.transactionID <> not_paid.transactionID;
 -- Percentage of favorite kinds of books based on gender. 
 SELECT Items.genre, count(items.genre) * 100.0 / (sum(count(*)) over()) as number_of_genre
 FROM transactions
-JOIN library_users on library_users.userID = transactions.userID and library_users.gender = "male"
+JOIN library_users on library_users.userID = transactions.userID and library_users.gender = 'male'
 join items
 ON transactions.itemID = items.itemID
-group by items.genre; -- for female
+group by items.genre; -- for male
 
 SELECT Items.genre, count(items.genre) * 100.0 / (sum(count(*)) over()) as number_of_genre
 FROM transactions
-JOIN library_users on library_users.userID = transactions.userID and library_users.gender = "female"
+JOIN library_users on library_users.userID = transactions.userID and library_users.gender = 'Female'
 join items
 ON transactions.itemID = items.itemID
 group by items.genre; -- for female
@@ -572,11 +568,6 @@ GROUP BY month
 ORDER BY month;
 -- ------------------------------------------------------
 
-
-SELECT 
-FROM transactions tr
-join borrowing_transactions br
-join returning_transactions rt;
 
 
 
